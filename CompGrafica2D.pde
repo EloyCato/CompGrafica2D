@@ -1,6 +1,7 @@
 void setup(){
   size(1000,800);
 }
+//teste
 int CursorX=0;
 boolean AMFM,ligado=false; //<>//
 void draw(){
