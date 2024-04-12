@@ -4,7 +4,7 @@ void setup(){
   size(1000,800);
 }
 int CursorX=0;
-boolean AMFM,ligado=false; //<>//
+boolean AM=false, FM=false,ligado=false; //<>//
 void draw(){
   strokeWeight(4);
   fill(255);
@@ -17,7 +17,7 @@ void draw(){
   if(ligado==true){
     fill(0);
     rect(60,210,80,80);
-    if(AMFM==false){
+    if(AM==true){
       fill(#DECB38);
       rect(150,210,80,80);
       if(CursorX>50 && CursorX<60){
@@ -25,7 +25,7 @@ void draw(){
         rect(60,30,60,60);
       }
     }
-    if(AMFM==true){
+    if(FM==true){
       fill(#1BACF2);
       rect(240,210,80,80);
       if(CursorX>90 && CursorX<110){
@@ -36,11 +36,13 @@ void draw(){
   }
   if(keyPressed==true){   
     if(ligado == true){
-      if(key=='a' && AMFM==false){
-        AMFM=true;
+      if(key=='a'){
+        AM=true;
+        FM=false;
         CursorX=0;
-      }else if(key=='f' && AMFM==true){
-        AMFM=false;
+      }else if(key=='f'){
+        FM=true;
+        AM=false;
         CursorX=0;
       }
       if(key == CODED && keyCode == RIGHT){
@@ -63,6 +65,8 @@ void keyReleased(){
         ligado=true;
       }else{
         ligado=false;
+        FM=false;
+        AM=false;
         CursorX=0;
       }
     }
