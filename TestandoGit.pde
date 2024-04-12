@@ -57,6 +57,9 @@ void draw(){
     }
     
   }
+  rect(60,350, 800,350,30);
+  rect(60,700,800,50,30);
+  
 }
 
 void keyReleased(){
