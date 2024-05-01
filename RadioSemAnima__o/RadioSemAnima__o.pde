@@ -54,9 +54,7 @@ void draw() {
   rect(754, 184, 25, 25, 10);//botão FM
   fill(corpo);
   ellipse(567, 270, 180, 180);//controle de frequencia do rádio
-  noFill();
   strokeWeight(4);
-  rect(69, 37, 364, 368, 30);//contorno saida de som maior
   stroke(0);
   line(643, 270, 491, 270);//botão de frequência
   line(567, 347, 567, 201);//botão de frequência
@@ -68,14 +66,16 @@ void draw() {
   text("188.5Mhz", 509, 377);
   text("FM", 758, 224);
   text("AM", 758, 142);
+  text("ON/OFF", 103, -6);
   fill(250);
   stroke(neon);
   line(827, 76, 738, 76);
   pg.beginDraw();
+  pg.noFill();
   pg.stroke(neon);
+  pg.rect(69, 37, 364, 368, 30);//contorno saida de som maior
   pg.line(825, 477, 53, 477);//linha da base(tem que ser azul)
   pg.line(684, 270, 658, 270);
-  pg.noFill();
   pg.arc(685, 245, 50, 50, 0, HALF_PI);
   pg.line(710, 245, 710, 104);
   pg.arc(735, 101, 50, 50, -PI, -1*HALF_PI);
