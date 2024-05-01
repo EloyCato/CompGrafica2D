@@ -3,13 +3,12 @@ void setup() {
   pg = createGraphics(880, 600);
 }
 color neon = color(51,232,254);
-
+color corpo = color(233,31,60);
 PGraphics pg;
 //altura do corpo do rádio =185pixeis
 //altura da base do rádio =40p
 //largura do ráido=390p
 void draw() {
-  color corpo = color(233,31,60);
   stroke(0);
   strokeWeight(3);
   translate(0, 64);
@@ -27,6 +26,11 @@ void draw() {
   rect(750, 252, 33, 146, 40);//saida de som menor
   rect(76, 44, 350, 354, 27);//saida de som maior
   fill(0);
+  for(int j=0;j<9;j++){
+    ellipse(759, 265+15*j, 10, 10);
+    if(j!=0)
+      ellipse(773, 257+15*j, 10, 10);
+  }
   for (int j=0; j<19; j++) {
     for (int k=0; k<23; k++) {
       if (j%2==0 && k!=22) {
@@ -52,7 +56,7 @@ void draw() {
   ellipse(567, 270, 180, 180);//controle de frequencia do rádio
   noFill();
   strokeWeight(4);
-  rect(69, 37, 364, 368, 30);//saida de som maior
+  rect(69, 37, 364, 368, 30);//contorno saida de som maior
   stroke(0);
   line(643, 270, 491, 270);//botão de frequência
   line(567, 347, 567, 201);//botão de frequência
@@ -62,6 +66,8 @@ void draw() {
   textSize(12);
   text("195.8Mhz", 508, 177);
   text("188.5Mhz", 509, 377);
+  text("FM", 758, 224);
+  text("AM", 758, 142);
   fill(250);
   stroke(neon);
   line(827, 76, 738, 76);
