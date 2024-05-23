@@ -9,12 +9,13 @@ String currentStation = "";
 String[] AMStations = {
   
   "http://stream.whus.org:8000/whusfm", // Exemplo de estação AM
-  "http://stream.wrmh.fm:8000/stream", // Exemplo de estação AM
+  "http://stream.wrmh.fm:8000/stream",
+  "http://ice1.somafm.com/groovesalad-128-mp3" // Exemplo de estação AM
   // Adicionar mais URLs de rádios AM
 };
 String[] FMStations = {
   "http://stream.radioparadise.com/mp3-128", // Exemplo de estação FM
-  "http://ice1.somafm.com/groovesalad-128-mp3", // Exemplo de estação FM
+  "http://ice1.somafm.com/groovesalad-128-mp3" // Exemplo de estação FM
   
   // Adicionar mais URLs de rádios FM
 };
@@ -24,7 +25,6 @@ void setup() {
   pg = createGraphics(880, 600);
   minim = new Minim(this);
 }
-
 color neon = color(51, 232, 254);
 color corpo = color(233, 31, 60);
 PGraphics pg;
@@ -32,6 +32,7 @@ int Cursor = 0;
 boolean AM = false, FM = false, ligado = false;
 
 void draw() {
+  //tuneRadio(); // Chama tuneRadio() no início do programa
   stroke(0);
   strokeWeight(3);
   translate(0, 64);
@@ -210,18 +211,37 @@ void keyReleased() {
 
 // Função para sintonizar a rádio
 void tuneRadio() {
-  if (player != null) {
-    player.close();
-  }
+ 
   if (AM) {
     int index = int(map(Cursor, 0, 10, 0, AMStations.length - 1));
-    currentStation = AMStations[index];
-  } else if (FM) {
+    if (index >= 0 && index < AMStations.length) {
+      currentStation = AMStations[index];
+    }
+  } 
+  else if (FM) {
     int index = int(map(Cursor, 0, -10, 0, FMStations.length - 1));
-    currentStation = FMStations[index];
+    if (index >= 0 && index < FMStations.length) {
+      currentStation = FMStations[index];
+    }
   }
-  player = minim.loadFile(currentStation, 2048);
-  player.play();
+  
+  // Verifica se a currentStation não está vazia antes de tentar carregar o arquivo de áudio
+  if (currentStation != null && !currentStation.isEmpty()){
+    if (player != null) {
+      player.close();
+    }
+    player = minim.loadFile(currentStation, 2048);
+    
+    if (player != null ){
+      player.play();
+    } 
+    else {
+      stopRadio(); // Desliga o áudio em caso de erro
+    }
+  }
+  else {
+    stopRadio(); // Desliga o áudio se a URL não estiver definida
+  }
 }
 
 // Função para parar a rádio
