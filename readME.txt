@@ -6,6 +6,6 @@ AM - Tecla "a"
 
 FM - Tecla "f"
 
-Frequencia - Tecla "Seta UP" & "seta DOWN"
+Frequencia - Tecla "Seta LEFT" & "seta RIGHT"
 
 Volume - "w" & "s"
