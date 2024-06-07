@@ -145,11 +145,11 @@ void draw() {
     fill(neon);
     rect(104, 1, 41, 19, 28, 34, 0, 0); // botão de ligar
     if (AM == true) {
-      fill(0, 0, 0);
+      fill(neon);
       rect(754, 147, 25, 25, 10); // botão AM
     }
     if (FM == true) {
-      fill(0, 0, 0);
+      fill(neon);
       rect(754, 184, 25, 25, 10); // botão FM
     }
   }
@@ -171,21 +171,21 @@ void draw() {
   if (keyPressed == true) {
     if (key == CODED) {
       if (FM == true) {
-        if (keyCode == UP && Cursor < 0) {
+        if (keyCode == RIGHT && Cursor < 0) {
           Cursor = Cursor + 1;
           tuneRadio();
         }
-        if (keyCode == DOWN && Cursor > -45) {
+        if (keyCode == LEFT && Cursor > -45) {
           Cursor = Cursor - 1;
           tuneRadio();
         }
       }
       if (AM == true) {
-        if (keyCode == UP && Cursor > 0) {
+        if (keyCode == LEFT && Cursor > 0) {
           Cursor = Cursor - 1;
           tuneRadio();
         }
-        if (keyCode == DOWN && Cursor < 45) {
+        if (keyCode == RIGHT && Cursor < 45) {
           Cursor = Cursor + 1;
           tuneRadio();
         }
