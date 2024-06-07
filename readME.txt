@@ -1,3 +1,5 @@
+Instalar biblioteca MINIM - Menu -> Sketch -> Import Library -> Add Library -> buscar "Minim"
+
 Ligar - Tecla "1"
 
 AM - Tecla "a"
