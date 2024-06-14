@@ -8,13 +8,18 @@ String currentStation = "";
 // Lista de URLs de rádios online
 String[] AMStations = {
   "http://stream.whus.org:8000/whusfm", // Exemplo de estação AM
-  "http://stream.wrmh.fm:8000/stream",
-  "http://ice1.somafm.com/groovesalad-128-mp3" // Exemplo de estação AM
+  "nd",                                 //Estacao nao definida
+  "http://ice1.somafm.com/groovesalad-128-mp3", // Exemplo de estação AM
+  "nd"
 };
 String[] FMStations = {
+  "nd",
   "http://stream.radioparadise.com/mp3-128", // Exemplo de estação FM
+  "nd",
   "http://ice1.somafm.com/groovesalad-128-mp3" // Exemplo de estação FM
 };
+
+String ruido = "radio_noise.mp3";
 
 void setup() {
   size(880, 600);
@@ -24,6 +29,7 @@ void setup() {
 
 color neon = color(51, 232, 254);
 color corpo = color(233, 31, 60);
+color corpo2 = color(150, 10, 30);
 PGraphics pg;
 int boca_width = 250;
 int boca_hight = 255;
@@ -43,7 +49,7 @@ void draw() {
   rect(50, 20, 780, 400, 40); // corpo do rádio
   rect(49, 420, 780, 80, 40, 40, 15, 15); // base do rádio
   stroke(0);
-  fill(corpo);
+  fill(corpo2);
   rect(104, 1, 41, 19, 28, 34, 0, 0); // botão de ligar
   fill(100);
   stroke(neon);
@@ -78,6 +84,7 @@ void draw() {
     }
     //rect(552 + 16 * i, 65 - (i * 7), 10, 7 * i);
   }
+  fill(corpo2);
   rect(754, 147, 25, 25, 10); // botão AM
   rect(754, 184, 25, 25, 10); // botão FM
   fill(corpo);
@@ -88,8 +95,14 @@ void draw() {
   line(567, 347, 567, 201); // botão de frequência
   fill(0);
   textSize(20);
-  text("volume", 471, 65);
+  text("volume", 471, 51);
   textSize(12);
+  fill(corpo2);
+  noStroke();
+  rect(481, 67, 14, -14, 2);
+  rect(509, 67, 14, -14, 2);
+  fill(0);
+  text("S  |  W", 485, 65);
   text("195.8Mhz", 508, 177);
   text("188.5Mhz", 509, 377);
   text("FM", 758, 224);
@@ -144,23 +157,26 @@ void draw() {
     strokeWeight(3);
     fill(neon);
     rect(104, 1, 41, 19, 28, 34, 0, 0); // botão de ligar
+    rect(754, 147, 25, 25, 10); // botão AM
+    rect(754, 184, 25, 25, 10); // botão FM
+    
     if (AM == true) {
-      fill(neon);
+      fill(255,255,0);
       rect(754, 147, 25, 25, 10); // botão AM
     }
     if (FM == true) {
-      fill(neon);
+      fill(255,255,0);
       rect(754, 184, 25, 25, 10); // botão FM
     }
   }
   if (keyPressed == true) {
     if (ligado == true) {
-      if (key == 'a') {
+      if (key == 'a' || key == 'A') {
         AM = true;
         FM = false;
         Cursor = 0;
         tuneRadio();
-      } else if (key == 'f') {
+      } else if (key == 'f' || key == 'F') {
         FM = true;
         AM = false;
         Cursor = 0;
@@ -170,23 +186,23 @@ void draw() {
   }
   if (keyPressed == true) {
     if (key == CODED) {
-      if (FM == true) {
+      if (AM == true) {
+        if (keyCode == LEFT &&  Cursor > -45) {
+          Cursor = Cursor - 1;
+          tuneRadio();
+        }
         if (keyCode == RIGHT && Cursor < 0) {
           Cursor = Cursor + 1;
           tuneRadio();
         }
-        if (keyCode == LEFT && Cursor > -45) {
-          Cursor = Cursor - 1;
-          tuneRadio();
-        }
       }
-      if (AM == true) {
-        if (keyCode == LEFT && Cursor > 0) {
-          Cursor = Cursor - 1;
-          tuneRadio();
-        }
+      if (FM == true) {
         if (keyCode == RIGHT && Cursor < 45) {
           Cursor = Cursor + 1;
+          tuneRadio();
+        }
+        if (keyCode == LEFT && Cursor > 0) {
+          Cursor = Cursor - 1;
           tuneRadio();
         }
       }
@@ -202,7 +218,7 @@ void draw() {
 }
 
 void keyReleased() {
-  if (key == '1') {
+  if (key == 'o' || key == 'O') {
     if (ligado == false) {
       ligado = true;
     } else {
@@ -212,12 +228,12 @@ void keyReleased() {
       Cursor = 0;
       stopRadio();
     }
-  } else if (key == 'w') {
+  } else if (key == 'w' || key == 'W') {
     if (volumeLevel < 4) {
       volumeLevel++;
       setVolume(volumeLevel);
     }
-  } else if (key == 's') {
+  } else if (key == 's' || key == 'S') {
     if (volumeLevel > 0) {
       volumeLevel--;
       setVolume(volumeLevel);
@@ -227,15 +243,17 @@ void keyReleased() {
 
 // Função para sintonizar a rádio
 void tuneRadio() {
-  if (AM) {
-    int index = int(map(Cursor, 0, 10, 0, AMStations.length - 1));
-    if (index >= 0 && index < AMStations.length) {
-      currentStation = AMStations[index];
-    }
-  } else if (FM) {
-    int index = int(map(Cursor, 0, -10, 0, FMStations.length - 1));
+  if (FM) {
+    int index = int(map(Cursor, 0, 25, 0, FMStations.length - 1));
     if (index >= 0 && index < FMStations.length) {
       currentStation = FMStations[index];
+    
+    }
+  } else if (AM) {
+    int index = int(map(Cursor, 0, -25, 0, AMStations.length - 1));
+    if (index >= 0 && index < AMStations.length) {
+      currentStation = AMStations[index];
+    
     }
   }
   
@@ -248,10 +266,17 @@ void tuneRadio() {
       player.play();
       setVolume(volumeLevel);
     } else {
-      stopRadio(); // Desliga o áudio em caso de erro
+        // Ruido em caso de erro
+        
+          player = minim.loadFile(ruido, 2048);
+          player.play();
+          setVolume(volumeLevel);
     }
   } else {
-    stopRadio(); // Desliga o áudio se a URL não estiver definida
+      // Ruido se a URL não estiver definida
+        player = minim.loadFile(ruido, 2048);
+        player.play();
+        setVolume(volumeLevel);
   }
 }
 
