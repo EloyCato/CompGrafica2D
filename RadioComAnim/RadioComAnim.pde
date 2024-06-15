@@ -5,6 +5,7 @@ Minim minim;
 AudioPlayer player;
 String currentStation = "";
 int sensibilidade;//sensibilidade da variação do cursor
+AudioMetaData ProcuraRuido;
 
 // Lista de URLs de rádios online
 String[] AMStations = {
@@ -282,6 +283,7 @@ void tuneRadio() {
         player.loop();
         setVolume(volumeLevel);
   }
+  ProcuraRuido=player.getMetaData();
 }
 
 // Função para parar a rádio
@@ -297,15 +299,23 @@ void setVolume(int level) {
   }
 }
 
+
+
 void desenhaOlhosEMoca() {
   // Desenha olhos e boca baseados no estado do rádio
   if (ligado ) { // Se estiver ligado e sintonizado
     if ((AM || FM) && player != null) {
-      desenhaOlhosFelizes();
-      desenhaBocaFeliz();
-    } else {
+      if(player.getMetaData().fileName()=="radio_noise.mp3"){
+        desenhaOlhosAbertos();
+        desenhaBocaTriste();
+      }else{
+        desenhaOlhosFelizes();
+        desenhaBocaFeliz();
+      }
+    }
+    if(!AM && !FM){
       desenhaOlhosAbertos();
-      desenhaBocaTriste();
+      desenhaBocaFechada();
     }
   } else {
     desenhaOlhosFechados();
