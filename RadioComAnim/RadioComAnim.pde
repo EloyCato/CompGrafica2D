@@ -4,6 +4,7 @@ import ddf.minim.ugens.*;
 Minim minim;
 AudioPlayer player;
 String currentStation = "";
+int sensibilidade;//sensibilidade da variação do cursor
 
 // Lista de URLs de rádios online
 String[] AMStations = {
@@ -184,25 +185,26 @@ void draw() {
       }
     }
   }
+  sensibilidade=3;//mude o valor para cursor variar mais a cada vez que aperta o botão, preferência para valores que dividem 45 sem resto(1, 3, 5, 7, 9, etc...) para não gerar incosistência
   if (keyPressed == true) {
     if (key == CODED) {
       if (AM == true) {
         if (keyCode == DOWN &&  Cursor > -45) {
-          Cursor = Cursor - 1;
+          Cursor = Cursor - sensibilidade;
           tuneRadio();
         }
         if (keyCode == UP && Cursor < 0) {
-          Cursor = Cursor + 1;
+          Cursor = Cursor + sensibilidade;
           tuneRadio();
         }
       }
       if (FM == true) {
-        if (keyCode == UP && Cursor < 45) {
-          Cursor = Cursor + 1;
+        if (keyCode == DOWN && Cursor < 45) {
+          Cursor = Cursor + sensibilidade;
           tuneRadio();
         }
-        if (keyCode == DOWN && Cursor > 0) {
-          Cursor = Cursor - 1;
+        if (keyCode == UP && Cursor > 0) {
+          Cursor = Cursor - sensibilidade;
           tuneRadio();
         }
       }
@@ -270,12 +272,14 @@ void tuneRadio() {
         
           player = minim.loadFile(ruido, 2048);
           player.play();
+          player.loop();
           setVolume(volumeLevel);
     }
   } else {
       // Ruido se a URL não estiver definida
         player = minim.loadFile(ruido, 2048);
         player.play();
+        player.loop();
         setVolume(volumeLevel);
   }
 }
