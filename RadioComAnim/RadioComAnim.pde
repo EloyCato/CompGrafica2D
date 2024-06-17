@@ -9,16 +9,18 @@ AudioMetaData ProcuraRuido;
 
 // Lista de URLs de rádios online
 String[] AMStations = {
+  "nd","nd",
   "http://stream.whus.org:8000/whusfm", // Exemplo de estação AM
-  "nd",                                 //Estacao nao definida
+  "nd","nd","nd",                                 //Estacao nao definida
   "http://ice1.somafm.com/groovesalad-128-mp3", // Exemplo de estação AM
-  "nd"
+  "nd","nd","nd"
 };
 String[] FMStations = {
-  "nd",
+  "nd","nd","nd",
   "http://stream.radioparadise.com/mp3-128", // Exemplo de estação FM
-  "nd",
-  "http://ice1.somafm.com/groovesalad-128-mp3" // Exemplo de estação FM
+  "nd","nd","nd",
+  "http://ice1.somafm.com/groovesalad-128-mp3", // Exemplo de estação FM
+  "nd","nd"
 };
 
 String ruido = "radio_noise.mp3";
@@ -186,7 +188,7 @@ void draw() {
       }
     }
   }
-  sensibilidade=3;//mude o valor para cursor variar mais a cada vez que aperta o botão, preferência para valores que dividem 45 sem resto(1, 3, 5, 7, 9, etc...) para não gerar incosistência
+  sensibilidade=3;//mude o valor para cursor para aumentar a velocidade, apenas valores inteiros, preferência para valores que dividem 45 sem resto(1, 3, 5, 7, 9, etc...) para não gerar incosistência
   if (keyPressed == true) {
     if (key == CODED) {
       if (AM == true) {
@@ -247,15 +249,15 @@ void keyReleased() {
 // Função para sintonizar a rádio
 void tuneRadio() {
   if (FM) {
-    int index = int(map(Cursor, 0, 25, 0, FMStations.length - 1));
+    int index = int(map(Cursor, 0, 45, 0, FMStations.length - 1)); //<>// //<>//
     if (index >= 0 && index < FMStations.length) {
-      currentStation = FMStations[index];
+      currentStation = FMStations[index]; //<>//
     
     }
   } else if (AM) {
-    int index = int(map(Cursor, 0, -25, 0, AMStations.length - 1));
+    int index = int(map(Cursor, 0, -45, 0, AMStations.length - 1)); //<>// //<>//
     if (index >= 0 && index < AMStations.length) {
-      currentStation = AMStations[index];
+      currentStation = AMStations[index]; //<>//
     
     }
   }
@@ -283,7 +285,7 @@ void tuneRadio() {
         player.loop();
         setVolume(volumeLevel);
   }
-  ProcuraRuido=player.getMetaData();
+  
 }
 
 // Função para parar a rádio
