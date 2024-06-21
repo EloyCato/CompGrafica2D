@@ -75,18 +75,11 @@ void draw() {
   rect(461, 73, 214, 42, 40); // controle de volume
   line(656, 94, 476, 94);
   fill(100);
-  rect(473, 79, 53, 30, 13); // botão de volume
+  rect(473+volumeLevel*33, 79, 53, 30, 13); // botão de volume
   fill(255);
   stroke(0);
-  for (int i = 0; i < 7; i++) { // Barras de indicação do volume
-    if (i < volumeLevel) {
-      fill(255);
-      
-   
-      //fill(255);
-      rect(552 + 16 * i, 65 - (i * 7), 10, 7 * i);
-    }
-    //rect(552 + 16 * i, 65 - (i * 7), 10, 7 * i);
+  for (int i = 0; i < 5; i++) { // Barras de indicação do volume
+    rect(552 + 16 * i, 65 - (i * 7), 10, 7 * i);
   }
   fill(corpo2);
   rect(754, 147, 25, 25, 10); // botão AM
@@ -106,13 +99,13 @@ void draw() {
   rect(481, 67, 14, -14, 2);
   rect(509, 67, 14, -14, 2);
   fill(0);
-  text("S  |  W", 485, 65);
+  text("-  |  +", 485, 65);
   text("195.8Mhz", 508, 177);
   text("188.5Mhz", 509, 377);
   text("FM", 758, 224);
   text("AM", 758, 142);
   text("ON/OFF", 103, -6);
-  triangle(509, 94, 493, 105, 493, 83); // seta de volume
+  triangle(509+volumeLevel*33, 94, 493+volumeLevel*33, 105, 493+volumeLevel*33, 83); // seta de volume
   fill(250);
   stroke(neon);
   line(827, 76, 738, 76);
@@ -124,14 +117,14 @@ void draw() {
     float barSpacing = 8; // espaçamento entre as barras
     float centerY = 477;
 
-    if (AM) {
+    if (FM) {
       for (int i = 0; i <= abs(Cursor); i++) {
         float barHeight = map(i, 0, numBars, 5, 40);
         float barX1 = startX + i * barSpacing; //barras para a direita
         line(barX1, centerY, barX1, centerY - barHeight);
       }
     }
-    if (FM) {
+    if (AM) {
       for (int i = 0; i <= abs(Cursor); i++) {
         float barHeight = map(i, 0, numBars, 5, 40);
         float barX2 = startX - i * barSpacing; //barras para a esquerda
@@ -190,28 +183,26 @@ void draw() {
   }
   sensibilidade=3;//mude o valor para cursor para aumentar a velocidade, apenas valores inteiros, preferência para valores que dividem 45 sem resto(1, 3, 5, 7, 9, etc...) para não gerar incosistência
   if (keyPressed == true) {
-    if (key == CODED) {
-      if (AM == true) {
-        if (keyCode == DOWN &&  Cursor > -45) {
-          Cursor = Cursor - sensibilidade;
-          tuneRadio();
-        }
-        if (keyCode == UP && Cursor < 0) {
-          Cursor = Cursor + sensibilidade;
-          tuneRadio();
-        }
-      }
-      if (FM == true) {
-        if (keyCode == DOWN && Cursor < 45) {
-          Cursor = Cursor + sensibilidade;
-          tuneRadio();
-        }
-        if (keyCode == UP && Cursor > 0) {
-          Cursor = Cursor - sensibilidade;
-          tuneRadio();
-        }
-      }
-    }
+     if (AM == true) {
+       if (key== '4' || keyCode == LEFT &&  Cursor > -45) {
+         Cursor = Cursor - sensibilidade;
+         tuneRadio();
+       }
+       if (key== '6' || keyCode == RIGHT && Cursor < 0) {
+         Cursor = Cursor + sensibilidade;
+         tuneRadio();
+       }
+     }
+     if (FM == true) {
+       if (key== '6' || keyCode == RIGHT && Cursor < 45) {
+         Cursor = Cursor + sensibilidade;
+         tuneRadio();
+       }
+       if (key== '4' || keyCode == LEFT && Cursor > 0) {
+         Cursor = Cursor - sensibilidade;
+         tuneRadio();
+       }
+     }
   }
   translate(567, 270);
   rotate(PI * Cursor / 45);
@@ -233,12 +224,12 @@ void keyReleased() {
       Cursor = 0;
       stopRadio();
     }
-  } else if (key == 'w' || key == 'W') {
+  } else if (key == '=' || key == '+') {
     if (volumeLevel < 4) {
       volumeLevel++;
       setVolume(volumeLevel);
     }
-  } else if (key == 's' || key == 'S') {
+  } else if (key == '-' || key == '_') {
     if (volumeLevel > 0) {
       volumeLevel--;
       setVolume(volumeLevel);
@@ -258,15 +249,15 @@ void tuneRadio() {
     int index = int(map(Cursor, 0, -45, 0, AMStations.length - 1)); //<>// //<>//
     if (index >= 0 && index < AMStations.length) {
       currentStation = AMStations[index]; //<>//
-    
+     //<>//
     }
-  }
+  } //<>//
   
   if (currentStation != null && !currentStation.isEmpty()) {
     if (player != null) {
-      player.close();
+      player.close(); //<>//
     }
-    player = minim.loadFile(currentStation, 2048);
+    player = minim.loadFile(currentStation, 2048); //<>//
     if (player != null) {
       player.play();
       setVolume(volumeLevel);
