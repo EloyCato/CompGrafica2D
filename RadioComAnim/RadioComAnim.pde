@@ -184,21 +184,21 @@ void draw() {
   sensibilidade=3;//mude o valor para cursor para aumentar a velocidade, apenas valores inteiros, preferência para valores que dividem 45 sem resto(1, 3, 5, 7, 9, etc...) para não gerar incosistência
   if (keyPressed == true) {
      if (AM == true) {
-       if (key== '4' || keyCode == LEFT &&  Cursor > -45) {
+       if ((key== '4' || keyCode == LEFT) &&  Cursor > -45) {
          Cursor = Cursor - sensibilidade;
          tuneRadio();
        }
-       if (key== '6' || keyCode == RIGHT && Cursor < 0) {
+       if ((key== '6' || keyCode == RIGHT) && Cursor < 0) {
          Cursor = Cursor + sensibilidade;
          tuneRadio();
        }
      }
      if (FM == true) {
-       if (key== '6' || keyCode == RIGHT && Cursor < 45) {
+       if ((key== '6' || keyCode == RIGHT) && Cursor < 45) {
          Cursor = Cursor + sensibilidade;
          tuneRadio();
        }
-       if (key== '4' || keyCode == LEFT && Cursor > 0) {
+       if ((key== '4' || keyCode == LEFT) && Cursor > 0) {
          Cursor = Cursor - sensibilidade;
          tuneRadio();
        }
